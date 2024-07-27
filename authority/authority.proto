@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/ukasyah-dev/pb/authority";
+option go_package = "github.com/emitra-labs/pb/authority";
 
 package authority;
 

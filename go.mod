@@ -1,4 +1,4 @@
-module github.com/ukasyah-dev/pb
+module github.com/emitra-labs/pb
 
 go 1.22.5
 
@@ -11,5 +11,5 @@ require (
 	golang.org/x/net v0.27.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240711142825-46eb208f015d // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240725223205-93522f1f2a9f // indirect
 )
