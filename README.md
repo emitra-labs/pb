@@ -1,6 +1,6 @@
 # pb
 
-All Protobuf schemas used across my Golang projects.
+All Protobuf schemas used across our Go projects.
 
 ## Prerequisites
 
