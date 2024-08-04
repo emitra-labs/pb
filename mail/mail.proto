@@ -8,10 +8,24 @@ service Mail {
   rpc SendTransactional (SendTransactionalRequest) returns (SendTransactionalResponse) {}
 }
 
+message TransactionalAction {
+  string Color = 1;
+  string Link = 2;
+  string Text = 3;
+}
+
+message TransactionalBody {
+  string Name = 1;
+  repeated string Intros = 2;
+  repeated TransactionalAction Actions = 3;
+  repeated string Outros = 4;
+}
+
 message SendTransactionalRequest {
   string From = 1;
   string To = 2;
   string Subject = 3;
+  TransactionalBody Body = 4;
 }
 
 message SendTransactionalResponse {
