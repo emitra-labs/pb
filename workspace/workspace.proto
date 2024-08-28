@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "github.com/emitra-labs/pb/workspace";
+
+package workspace;
+
+service Workspace {
+  rpc Authorize (AuthorizeRequest) returns (AuthorizeResponse) {}
+}
+
+message AuthorizeRequest {
+  string ActionID = 1;
+  string TeamID = 2;
+  string UserID = 3;
+}
+
+message AuthorizeResponse {
+  bool Allowed = 1;
+}
