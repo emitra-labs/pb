@@ -4,30 +4,38 @@ option go_package = "github.com/emitra-labs/pb/mail";
 
 package mail;
 
+import "common/common.proto";
+
 service Mail {
-  rpc SendTransactional (SendTransactionalRequest) returns (SendTransactionalResponse) {}
+  rpc Send (SendRequest) returns (common.BasicResponse) {}
 }
 
-message TransactionalAction {
-  string Color = 1;
-  string Link = 2;
-  string Text = 3;
-}
-
-message TransactionalBody {
-  string Name = 1;
-  repeated string Intros = 2;
-  repeated TransactionalAction Actions = 3;
-  repeated string Outros = 4;
-}
-
-message SendTransactionalRequest {
+message SendRequest {
   string From = 1;
   string To = 2;
   string Subject = 3;
-  TransactionalBody Body = 4;
+  Body Body = 4;
 }
 
-message SendTransactionalResponse {
-  bool Success = 1;
+message Body {
+  string Name = 1;
+  repeated string Intros = 2;
+  repeated Action Actions = 3;
+  repeated string Outros = 4;
+  string Greeting = 5;
+  string Signature = 6;
+  string Title = 7;
+}
+
+message Action {
+  string Instructions = 1;
+  Button Button = 2;
+  string InviteCode = 3;
+}
+
+message Button {
+  string Color = 1;
+  string TextColor = 2;
+  string Text = 3;
+  string Link = 4;
 }

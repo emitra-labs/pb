@@ -8,6 +8,7 @@ package mail
 
 import (
 	context "context"
+	common "github.com/emitra-labs/pb/common"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,14 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Mail_SendTransactional_FullMethodName = "/mail.Mail/SendTransactional"
+	Mail_Send_FullMethodName = "/mail.Mail/Send"
 )
 
 // MailClient is the client API for Mail service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MailClient interface {
-	SendTransactional(ctx context.Context, in *SendTransactionalRequest, opts ...grpc.CallOption) (*SendTransactionalResponse, error)
+	Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*common.BasicResponse, error)
 }
 
 type mailClient struct {
@@ -37,10 +38,10 @@ func NewMailClient(cc grpc.ClientConnInterface) MailClient {
 	return &mailClient{cc}
 }
 
-func (c *mailClient) SendTransactional(ctx context.Context, in *SendTransactionalRequest, opts ...grpc.CallOption) (*SendTransactionalResponse, error) {
+func (c *mailClient) Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*common.BasicResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SendTransactionalResponse)
-	err := c.cc.Invoke(ctx, Mail_SendTransactional_FullMethodName, in, out, cOpts...)
+	out := new(common.BasicResponse)
+	err := c.cc.Invoke(ctx, Mail_Send_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +52,7 @@ func (c *mailClient) SendTransactional(ctx context.Context, in *SendTransactiona
 // All implementations must embed UnimplementedMailServer
 // for forward compatibility.
 type MailServer interface {
-	SendTransactional(context.Context, *SendTransactionalRequest) (*SendTransactionalResponse, error)
+	Send(context.Context, *SendRequest) (*common.BasicResponse, error)
 	mustEmbedUnimplementedMailServer()
 }
 
@@ -62,8 +63,8 @@ type MailServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMailServer struct{}
 
-func (UnimplementedMailServer) SendTransactional(context.Context, *SendTransactionalRequest) (*SendTransactionalResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendTransactional not implemented")
+func (UnimplementedMailServer) Send(context.Context, *SendRequest) (*common.BasicResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
 func (UnimplementedMailServer) mustEmbedUnimplementedMailServer() {}
 func (UnimplementedMailServer) testEmbeddedByValue()              {}
@@ -86,20 +87,20 @@ func RegisterMailServer(s grpc.ServiceRegistrar, srv MailServer) {
 	s.RegisterService(&Mail_ServiceDesc, srv)
 }
 
-func _Mail_SendTransactional_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendTransactionalRequest)
+func _Mail_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MailServer).SendTransactional(ctx, in)
+		return srv.(MailServer).Send(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Mail_SendTransactional_FullMethodName,
+		FullMethod: Mail_Send_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MailServer).SendTransactional(ctx, req.(*SendTransactionalRequest))
+		return srv.(MailServer).Send(ctx, req.(*SendRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +113,8 @@ var Mail_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MailServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendTransactional",
-			Handler:    _Mail_SendTransactional_Handler,
+			MethodName: "Send",
+			Handler:    _Mail_Send_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
