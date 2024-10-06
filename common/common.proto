@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "github.com/emitra-labs/pb/common";
+
+package common;
+
+message Empty {}
+
+message BasicResponse {
+  string Message = 1;
+}
